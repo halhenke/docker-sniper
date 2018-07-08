@@ -14,6 +14,14 @@ run-demo:
 		-v $(pwd)/mount/out:/root/out \
 		sniper-demo \
 		python demo.py
+run-demo-it:
+	nvidia-docker run \
+		--rm \
+		-it \
+		--name=sniper \
+		-v $(pwd)/mount/out:/root/out \
+		sniper-demo
+
 build-sniper-3000:
 	nvidia-docker build -t sniper-3000 ./docker-3000
 run-sniper-3000-it:

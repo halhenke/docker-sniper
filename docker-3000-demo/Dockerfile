@@ -2,7 +2,8 @@ FROM sniper-3000
 
 # Get models
 COPY ./gdrive-dload.sh ./gdrive-dload.sh
-RUN ./gdrive-dload.sh
+
+RUN ./gdrive-dload.sh 1hEG-GmMrvp--hWRU41RMBLB3gL-IdXs9 ILSVRC2014_devkit.tar
 
 RUN mv ./ILSVRC2014_devkit.tar ./data/ILSVRC2014_devkit.tar \
   && tar -xvf ./data/ILSVRC2014_devkit.tar -C ./data \
@@ -11,7 +12,34 @@ RUN mv ./ILSVRC2014_devkit.tar ./data/ILSVRC2014_devkit.tar \
 
 RUN pip install -r requirements.txt
 
-# RUN bash scripts/compile.sh
+RUN ./gdrive-dload.sh 10QOmpklDcY2eO-Lfc3IjY0b9XcTEiYY8 CRCNN-0007.params \
+  && mkdir -p /root/SNIPER/output/chips_resnet101_3k/res101_mx_3k/fall11_whole \
+  && mv CRCNN-0007.params /root/SNIPER/output/chips_resnet101_3k/res101_mx_3k/fall11_whole/
+  # && mv CRCNN-0007.params /root/SNIPER/output
+
+RUN ./gdrive-dload.sh 1fYsCF6q-bctZMNrLPQkNHJEVxL5LpnYM image.tar \
+  && mv image.tar /demo \
+  && mkdir ./demo/image \
+  && tar -xvf ./demo/image.tar -C ./demo/image \
+  && rm ./demo/image.tar
+
+# NOTE: For some reason this disappeared from the repo?
+COPY ./compile.sh /root/SNIPER/scripts/
+
+# NOTE: Pretty sure we need to reference custom MxNet build as in master branch
+COPY ./init.py /root/SNIPER/init.py
+
+# NOTE: Also need this
+COPY ./demo_3k.py /root/SNIPER/demo_3k.py
+
+# NOTE: ...and this
+COPY ./demo.py /root/SNIPER/demo.py
+
+RUN bash scripts/compile.sh
+
+# TODO: Should have done this earlier but caching
+# RUN mkdir -p /root/SNIPER/output/chips_resnet101_3k/res101_mx_3k/fall11_whole \
+#   && mv output/CRCNN-0007.params output/chips_resnet101_3k/res101_mx_3k/fall11_whole/CRCNN-0007.params
 
 # # Necessary for demo.py
 # RUN pip install futures
