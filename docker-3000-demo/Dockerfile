@@ -17,10 +17,9 @@ RUN ./gdrive-dload.sh 10QOmpklDcY2eO-Lfc3IjY0b9XcTEiYY8 CRCNN-0007.params \
   && mv CRCNN-0007.params /root/SNIPER/output/chips_resnet101_3k/res101_mx_3k/fall11_whole/
   # && mv CRCNN-0007.params /root/SNIPER/output
 
-RUN ./gdrive-dload.sh 1fYsCF6q-bctZMNrLPQkNHJEVxL5LpnYM image.tar \
-  && mv image.tar /demo \
-  && mkdir ./demo/image \
-  && tar -xvf ./demo/image.tar -C ./demo/image \
+RUN ./gdrive-dload.sh 1fYsCF6q-bctZMNrLPQkNHJEVxL5LpnYM image.tar
+RUN mv image.tar ./demo/ \
+  && tar -xvf ./demo/image.tar -C ./demo \
   && rm ./demo/image.tar
 
 # NOTE: For some reason this disappeared from the repo?
@@ -36,6 +35,11 @@ COPY ./demo_3k.py /root/SNIPER/demo_3k.py
 COPY ./demo.py /root/SNIPER/demo.py
 
 RUN bash scripts/compile.sh
+
+RUN apt-get update && \
+  apt-get -y install \
+    python-tk \
+  && rm -rf /var/lib/apt/lists/*
 
 # TODO: Should have done this earlier but caching
 # RUN mkdir -p /root/SNIPER/output/chips_resnet101_3k/res101_mx_3k/fall11_whole \

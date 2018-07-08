@@ -29,5 +29,9 @@ run-sniper-3000-it:
 
 build-sniper-3000-demo:
 	nvidia-docker build -t sniper-3000-demo ./docker-3000-demo
-run-sniper-3000-demo:
+run-sniper-3000-demo-it:
 	nvidia-docker run -it --rm --name=sniper-3000-demo sniper-3000-demo
+run-sniper-3000-demo:
+	xhost +local:root
+	nvidia-docker run -it --rm --name=sniper-3000-demo sniper-3000-demo \
+	python demo_3k.py
