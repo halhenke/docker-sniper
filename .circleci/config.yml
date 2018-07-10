@@ -42,4 +42,6 @@ workflows:
   build:
     jobs:
       - build-3000-base
-      - build-3000-demo
+      - build-3000-demo:
+        requires:
+          - build-3000-base
