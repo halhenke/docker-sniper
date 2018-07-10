@@ -1,0 +1,45 @@
+version: 2.0
+jobs:
+  build-3000-base:
+    docker:
+      - image: circleci/python:3.6-jessie-node
+    working_directory: ~/app
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run:
+          name: Setup the repo (download openvino framework)
+          command: make setup-repo
+      - run:
+          name: Build our container & push it to docker
+          command: |
+            TAG=sniper-3000:base
+            docker login -u $DOCKER_USER -p $DOCKER_PASS
+            docker build -t $DOCKER_USER/$TAG ./docker-3000
+            docker push $DOCKER_USER/$TAG
+  build-3000-demo:
+    docker:
+      - image: circleci/python:3.6-jessie-node
+    working_directory: ~/app
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run:
+          name: Setup the repo (download openvino framework)
+          command: make setup-repo
+      - run:
+          name: Build our container & push it to docker
+          command: |
+            TAG=sniper-3000:demo
+            docker login -u $DOCKER_USER -p $DOCKER_PASS
+            docker build -t $DOCKER_USER/$TAG ./docker-3000-demo
+            docker push $DOCKER_USER/$TAG
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - build-3000-base
+      - build-3000-demo

@@ -1,4 +1,4 @@
-FROM sniper-3000
+FROM hal9zillion/sniper-3000:base
 
 # Get models
 COPY ./gdrive-dload.sh ./gdrive-dload.sh
