@@ -10,7 +10,7 @@ RUN mv ./ILSVRC2014_devkit.tar ./data/ILSVRC2014_devkit.tar \
   && rm ./data/ILSVRC2014_devkit.tar
 # RUN wet https://doc-0k-2o-docs.googleusercontent.com/docs/securesc/140ggf537nf1o91rmda1uhst3cb55e0q/g4chd4tsnvqqig39fgp7ktnjmjhvb6dn/1531000800000/12246240124431421317/16635039061958009288/1hEG-GmMrvp--hWRU41RMBLB3gL-IdXs9?e=download&h=12166040844953652878&nonce=18bc8n85c4m8o&user=16635039061958009288&hash=3hff6mr7fpmdj39na8p2elnt1hv4vmiv
 
-RUN pip install -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 RUN ./gdrive-dload.sh 10QOmpklDcY2eO-Lfc3IjY0b9XcTEiYY8 CRCNN-0007.params \
   && mkdir -p /root/SNIPER/output/chips_resnet101_3k/res101_mx_3k/fall11_whole \
