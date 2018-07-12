@@ -57,3 +57,8 @@ RUN apt-get update && \
 
 # # CMD cp data/demo/demo_detections.jpg /root/out
 
+# Mount some stuff
+VOLUME [ "/root/SNIPER/demo_scripts" ]
+
+# Output/results
+VOLUME [ "/root/SNIPER/vis_result" ]
