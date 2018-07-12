@@ -34,4 +34,22 @@ run-sniper-3000-demo-it:
 run-sniper-3000-demo:
 	xhost +local:root
 	nvidia-docker run -it --rm --name=sniper-3000-demo sniper-3000-demo \
-	python demo_3k.py
+	mkdir vis_result && python demo.py
+run-sniper-3000-demo-3k:
+	xhost +local:root
+	nvidia-docker run -it --rm --name=sniper-3000-demo sniper-3000-demo \
+	mkdir vis_result && python demo_3k.py
+
+AWS_IMAGE := hal9zillion/sniper-3000-auto:sniper-3000-demo
+
+run-sniper-3000-demo-aws:
+	# xhost +local:root
+	nvidia-docker run \
+		-it \
+		--name=sniper-3000-demo \
+		--mount type=bind,source=$(pwd)/demo_scripts,target=/root/SNIPER/demo_scripts \
+		-v $(pwd)/vis_result:/root/SNIPER/vis_result \
+		$(AWS_IMAGE)
+		# -v $(pwd)/demo_scripts/demo_3k_video.py:/root/SNIPER/demo_scripts/demo_3k_video.py \
+		# mkdir vis_result && bash
+		# mkdir vis_result && python demo_3k.py
