@@ -62,3 +62,6 @@ VOLUME [ "/root/SNIPER/demo_scripts" ]
 
 # Output/results
 VOLUME [ "/root/SNIPER/vis_result" ]
+
+# Video Inputs
+VOLUME [ "/root/demo/vids" ]

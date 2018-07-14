@@ -1,6 +1,10 @@
 .PHONY: build-sniper run-sniper-it build-demo run-demo \
 	build-sniper-3000 run-sniper-3000-it build-sniper-3000-demo run-sniper-3000-demo
 
+AWS_IMAGE := hal9zillion/sniper-3000-auto:sniper-3000-demo
+PWD := $(shell pwd)
+VID_FILE := vids/trimmed_video2.mp4
+
 build-sniper:
 	nvidia-docker build -t sniper-cuda ./docker
 run-sniper-it:
@@ -11,7 +15,7 @@ run-demo:
 	nvidia-docker run \
 		--rm \
 		--name=sniper \
-		-v $(pwd)/mount/out:/root/out \
+		-v $(PWD)/mount/out:/root/out \
 		sniper-demo \
 		python demo.py
 run-demo-it:
@@ -19,7 +23,7 @@ run-demo-it:
 		--rm \
 		-it \
 		--name=sniper \
-		-v $(pwd)/mount/out:/root/out \
+		-v $(PWD)/mount/out:/root/out \
 		sniper-demo
 
 build-sniper-3000:
@@ -40,16 +44,19 @@ run-sniper-3000-demo-3k:
 	nvidia-docker run -it --rm --name=sniper-3000-demo sniper-3000-demo \
 	mkdir vis_result && python demo_3k.py
 
-AWS_IMAGE := hal9zillion/sniper-3000-auto:sniper-3000-demo
-
 run-sniper-3000-demo-aws:
 	# xhost +local:root
 	nvidia-docker run \
 		-it \
+		--rm \
 		--name=sniper-3000-demo \
-		--mount type=bind,source=$(pwd)/demo_scripts,target=/root/SNIPER/demo_scripts \
-		-v $(pwd)/vis_result:/root/SNIPER/vis_result \
+		--mount type=bind,source=$(PWD)/$(VID_FILE),target=/root/SNIPER/demo/vids/demo.mp4 \
+		-v $(PWD)/demo_scripts/demo_3k_video.py:/root/SNIPER/demo_3k_video.py \
+		--mount type=bind,source=$(PWD)/demo_scripts,target=/root/SNIPER/demo_scripts \
+		--mount type=bind,source=$(pwd)/vis_result,target=/root/SNIPER/vis_result \
 		$(AWS_IMAGE)
 		# -v $(pwd)/demo_scripts/demo_3k_video.py:/root/SNIPER/demo_scripts/demo_3k_video.py \
 		# mkdir vis_result && bash
 		# mkdir vis_result && python demo_3k.py
+		# --mount type=bind,source=$(pwd)/vis_result,target=/root/SNIPER/vis_result \
+		# -v $(PWD)/vis_result:/root/SNIPER/vis_result \
