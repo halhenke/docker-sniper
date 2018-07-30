@@ -6,17 +6,17 @@ PWD := $(shell pwd)
 VID_FILE := vids/trimmed_video2.mp4
 
 build-sniper:
-	nvidia-docker build -t sniper-cuda ./docker
+	nvidia-docker build -t hal9zillion/sniper-master:base ./docker
 run-sniper-it:
-	nvidia-docker run -it --rm --name=sniper sniper-cuda
+	nvidia-docker run -it --rm --name=sniper hal9zillion/sniper-master:base
 build-demo:
-	nvidia-docker build -t sniper-demo ./docker-demo
+	nvidia-docker build -t hal9zillion/sniper-master:demo ./docker-demo
 run-demo:
 	nvidia-docker run \
 		--rm \
 		--name=sniper \
 		-v $(PWD)/mount/out:/root/out \
-		sniper-demo \
+		hal9zillion/sniper-master:demo \
 		python demo.py
 run-demo-it:
 	nvidia-docker run \
@@ -24,7 +24,7 @@ run-demo-it:
 		-it \
 		--name=sniper \
 		-v $(PWD)/mount/out:/root/out \
-		sniper-demo
+		hal9zillion/sniper-master:demo
 
 build-sniper-3000:
 	nvidia-docker build -t sniper-3000 ./docker-3000
