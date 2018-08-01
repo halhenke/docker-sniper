@@ -40,7 +40,7 @@ jobs:
           command: |
             TAG=sniper-master:demo
             docker login -u $DOCKER_USER -p $DOCKER_PASS
-            docker build -t $DOCKER_USER/$TAG ./docker
+            docker build -t $DOCKER_USER/$TAG ./docker-demo
             docker push $DOCKER_USER/$TAG
   build-3000-base:
     docker:
