@@ -21,7 +21,7 @@ RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen \
 
 ENV LC_ALL en_US.UTF-8
 ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US.UTF-8%          
+ENV LANGUAGE en_US.UTF-8%
 
 # =====================================================
 # Trying to use different CUDA/CUDNN
@@ -57,11 +57,13 @@ RUN apt-get update && \
     libatlas-base-dev \
     libopencv-dev \
     libopenblas-dev \
+    google-perftools \
+    libgoogle-perftools-dev \
   && rm -rf /var/lib/apt/lists/*
 
 
 # RUN make -j [NUM_OF_PROCESS] USE_CUDA_PATH=[PATH_TO_THE_CUDA_FOLDER]
 
-RUN make USE_BLAS=openblas USE_CUDA=1 USE_CUDA_PATH=/usr/local/cuda USE_CUDNN=1
+RUN make -j USE_BLAS=openblas USE_CUDA=1 USE_CUDA_PATH=/usr/local/cuda USE_CUDNN=1
 
 WORKDIR /root/SNIPER
