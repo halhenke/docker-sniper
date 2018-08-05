@@ -7,7 +7,7 @@ RUN apt-get update && \
 RUN bash scripts/compile.sh
 
 # Use locked down requirements - particularly because of numpy v 1.15.0
-COPY ./requirements.txt /root/sniper/requirements.txt
+COPY ./requirements.txt /root/SNIPER/requirements.txt
 
 RUN pip install -r requirements.txt
 
