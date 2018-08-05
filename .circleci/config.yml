@@ -90,10 +90,11 @@ workflows:
   build:
     jobs:
       # - build-master-base
+      - build-master-demo
       # - build-master-demo:
       #     requires:
       #       - build-master-base
       # - build-3000-base
-      - build-3000-demo
+      # - build-3000-demo:
           # requires:
           #   - build-3000-base
