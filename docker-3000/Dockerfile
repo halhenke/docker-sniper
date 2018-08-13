@@ -1,9 +1,3 @@
-# FROM cudnn-base:latest
-
-# =====================================================
-# Trying to use different CUDA/CUDNN
-# =====================================================
-
 FROM nvidia/cuda:8.0-cudnn5-devel-ubuntu16.04
 
 USER root
@@ -23,13 +17,6 @@ ENV LC_ALL en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US.UTF-8%
 
-# =====================================================
-# Trying to use different CUDA/CUDNN
-# =====================================================
-
-
-USER root
-
 WORKDIR /root
 
 ENV LD_LIBRARY_PATH /usr/local/cuda/lib64
@@ -48,7 +35,6 @@ RUN pip install --upgrade pip
 
 # NOTE: We need a particular branch to get the R-FCN 3000 model
 RUN git clone --recurse-submodules --branch cvpr3k  https://github.com/mahyarnajibi/SNIPER.git
-# git clone --single-branch -b branch host:/dir.git
 
 WORKDIR /root/SNIPER/SNIPER-mxnet
 
@@ -60,7 +46,6 @@ RUN apt-get update && \
     google-perftools \
     libgoogle-perftools-dev \
   && rm -rf /var/lib/apt/lists/*
-
 
 # RUN make -j [NUM_OF_PROCESS] USE_CUDA_PATH=[PATH_TO_THE_CUDA_FOLDER]
 

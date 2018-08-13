@@ -11,15 +11,15 @@ jobs:
       # - run:
       #     name: Setup the repo (download openvino framework)
       #     command: make setup-repo
-      # - run:
-      #     name: Fake docker cache
-      #     command: docker pull $DOCKER_USER/sniper-master:base
+      - run:
+          name: Fake docker cache
+          command: docker pull $DOCKER_USER/sniper-master:base
       - run:
           name: Build our container & push it to docker
           command: |
             TAG=sniper-master:base
             docker login -u $DOCKER_USER -p $DOCKER_PASS
-            docker build -t $DOCKER_USER/$TAG ./docker
+            docker build -t $DOCKER_USER/$TAG ./docker-master
             docker push $DOCKER_USER/$TAG
   build-master-demo:
     docker:
@@ -32,15 +32,15 @@ jobs:
       # - run:
       #     name: Setup the repo (download openvino framework)
       #     command: make setup-repo
-      # - run:
-      #     name: Fake docker cache
-      #     command: docker pull $DOCKER_USER/sniper-master:demo
+      - run:
+          name: Fake docker cache
+          command: docker pull $DOCKER_USER/sniper-master:demo
       - run:
           name: Build our container & push it to docker
           command: |
             TAG=sniper-master:demo
             docker login -u $DOCKER_USER -p $DOCKER_PASS
-            docker build -t $DOCKER_USER/$TAG ./docker-demo
+            docker build -t $DOCKER_USER/$TAG ./docker-master-demo
             docker push $DOCKER_USER/$TAG
   build-3000-base:
     docker:

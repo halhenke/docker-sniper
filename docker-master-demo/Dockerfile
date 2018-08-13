@@ -20,6 +20,3 @@ RUN bash scripts/download_sniper_detector.sh
 RUN bash scripts/compile.sh
 
 # CMD python demo.py
-
-# CMD cp data/demo/demo_detections.jpg /root/out
-

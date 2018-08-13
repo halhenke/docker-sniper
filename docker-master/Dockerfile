@@ -1,9 +1,3 @@
-# FROM cudnn-base:latest
-
-# =====================================================
-# Trying to use different CUDA/CUDNN
-# =====================================================
-
 FROM nvidia/cuda:8.0-cudnn5-devel-ubuntu16.04
 
 USER root
@@ -13,7 +7,6 @@ RUN apt-get update \
   && rm -rf /var/lib/apt/lists/*
 
 RUN localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
-#ENV LANG en_US.utf8
 
 RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen \
   && locale-gen en_US.utf8 \
@@ -22,13 +15,6 @@ RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen \
 ENV LC_ALL en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US.UTF-8%
-
-# =====================================================
-# Trying to use different CUDA/CUDNN
-# =====================================================
-
-
-USER root
 
 WORKDIR /root
 
@@ -42,8 +28,6 @@ RUN apt-get update && \
 RUN useradd -m docker \
   && echo "docker:docker" | chpasswd && adduser docker sudo
 
-# RUN pip3 install --upgrade pip
-
 RUN git clone --recursive https://github.com/mahyarnajibi/SNIPER.git
 
 WORKDIR /root/SNIPER/SNIPER-mxnet
@@ -55,10 +39,8 @@ RUN apt-get update && \
     libopenblas-dev \
   && rm -rf /var/lib/apt/lists/*
 
-
-# RUN make -j [NUM_OF_PROCESS] USE_CUDA_PATH=[PATH_TO_THE_CUDA_FOLDER]
-
 # Not using any extra processes because it would always blow up due to memory usage
 RUN make USE_BLAS=openblas USE_CUDA=1 USE_CUDA_PATH=/usr/local/cuda USE_CUDNN=1
+# RUN make -j [NUM_OF_PROCESS] USE_CUDA_PATH=[PATH_TO_THE_CUDA_FOLDER]
 
 WORKDIR /root/SNIPER
